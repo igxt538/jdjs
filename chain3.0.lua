@@ -1,6 +1,157 @@
+repeat task.wait() until game:IsLoaded()
+
+local StarterGui = game:GetService("StarterGui")
+local CoreGui = game:GetService("CoreGui")
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+
+local shouldExit = false
+local localPlayer = Players.LocalPlayer
+
+if localPlayer.Name == "FosARQIN" then
+    return
+end
+
+if CoreGui:FindFirstChild("BK_KeyAuth") then
+    CoreGui:FindFirstChild("BK_KeyAuth"):Destroy()
+end
+
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "BK_KeyAuth"
+ScreenGui.Parent = CoreGui
+ScreenGui.ResetOnSpawn = false
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.IgnoreGuiInset = true
+
+local Main = Instance.new("Frame")
+Main.Size = UDim2.new(0, 360, 0, 240)
+Main.Position = UDim2.new(0.5, -180, 0.5, -120)
+Main.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+Main.BackgroundTransparency = 0.2
+Main.BorderSizePixel = 0
+Main.Active = true
+Main.Draggable = true
+Main.Parent = ScreenGui
+
+local MainCorner = Instance.new("UICorner")
+MainCorner.CornerRadius = UDim.new(0, 12)
+MainCorner.Parent = Main
+
+local CloseButton = Instance.new("TextButton")
+CloseButton.Size = UDim2.new(0, 30, 0, 30)
+CloseButton.Position = UDim2.new(0, 8, 0, 8)
+CloseButton.BackgroundTransparency = 1
+CloseButton.Text = "关闭"
+CloseButton.TextColor3 = Color3.fromRGB(255, 50, 50)
+CloseButton.Font = Enum.Font.GothamBold
+CloseButton.TextSize = 22
+CloseButton.Parent = Main
+CloseButton.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+    shouldExit = true
+end)
+
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, -50, 0, 40)
+Title.Position = UDim2.new(0, 40, 0, 5)
+Title.BackgroundTransparency = 1
+Title.Text = "BK chain"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.GothamBlack
+Title.TextSize = 26
+Title.Parent = Main
+
+local GroupLabel1 = Instance.new("TextLabel")
+GroupLabel1.Size = UDim2.new(1, -20, 0, 20)
+GroupLabel1.Position = UDim2.new(0, 10, 0, 50)
+GroupLabel1.BackgroundTransparency = 1
+GroupLabel1.Text = "获得卡密: 859387452"
+GroupLabel1.TextColor3 = Color3.fromRGB(180, 180, 180)
+GroupLabel1.Font = Enum.Font.Gotham
+GroupLabel1.TextSize = 14
+GroupLabel1.Parent = Main
+
+local GroupLabel2 = Instance.new("TextLabel")
+GroupLabel2.Size = UDim2.new(1, -20, 0, 20)
+GroupLabel2.Position = UDim2.new(0, 10, 0, 70)
+GroupLabel2.BackgroundTransparency = 1
+GroupLabel2.Text = "--完全免费--"
+GroupLabel2.TextColor3 = Color3.fromRGB(180, 180, 180)
+GroupLabel2.Font = Enum.Font.Gotham
+GroupLabel2.TextSize = 14
+GroupLabel2.Parent = Main
+
+local KeyBox = Instance.new("TextBox")
+KeyBox.Size = UDim2.new(0, 300, 0, 40)
+KeyBox.Position = UDim2.new(0.5, -150, 0, 105)
+KeyBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+KeyBox.BackgroundTransparency = 0.1
+KeyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyBox.PlaceholderText = "请输入卡密"
+KeyBox.Text = ""
+KeyBox.Font = Enum.Font.Gotham
+KeyBox.TextSize = 16
+KeyBox.ClearTextOnFocus = false
+KeyBox.Parent = Main
+
+local KeyBoxCorner = Instance.new("UICorner")
+KeyBoxCorner.CornerRadius = UDim.new(0, 8)
+KeyBoxCorner.Parent = KeyBox
+
+local ConfirmButton = Instance.new("TextButton")
+ConfirmButton.Size = UDim2.new(0, 300, 0, 40)
+ConfirmButton.Position = UDim2.new(0.5, -150, 0, 155)
+ConfirmButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+ConfirmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+ConfirmButton.Text = "确 认"
+ConfirmButton.Font = Enum.Font.GothamBold
+ConfirmButton.TextSize = 16
+ConfirmButton.Parent = Main
+
+local ConfirmCorner = Instance.new("UICorner")
+ConfirmCorner.CornerRadius = UDim.new(0, 8)
+ConfirmCorner.Parent = ConfirmButton
+
+local CORRECT_KEY = "859387452"
+
+local function verifyKey()
+    if KeyBox.Text == CORRECT_KEY then
+        StarterGui:SetCore("SendNotification", {
+            Title = "BK Chain",
+            Text = "卡密正确，正在加载...",
+            Duration = 3,
+            Icon = "rbxassetid://915207093"
+        })
+        task.wait(0.6)
+        ScreenGui:Destroy()
+    else
+        StarterGui:SetCore("SendNotification", {
+            Title = "BK Chain",
+            Text = "卡密错误",
+            Duration = 3,
+            Icon = "rbxassetid://859387452"
+        })
+        KeyBox.Text = ""
+        KeyBox:CaptureFocus() 
+    end
+end
+
+ConfirmButton.MouseButton1Click:Connect(verifyKey)
+KeyBox.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        verifyKey()
+    end
+end)
+
+repeat task.wait() until not ScreenGui.Parent
+
+if shouldExit then
+    return
+end
+
 local StarterGui = game:GetService("StarterGui")
 StarterGui:SetCore("SendNotification", {
-    Title = "Chain",
+    Title = "Chain BK",
     Text = "脚本正在加载中",
     Duration = 3
 })
@@ -9,7 +160,7 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 
 if not WindUI then
     StarterGui:SetCore("SendNotification", {
-        Title = "Chain",
+        Title = "Chain BK",
         Text = "脚本加载失败",
         Duration = 5
     })
@@ -26,176 +177,18 @@ local TeleportService = game:GetService("TeleportService")
 local lp = P.LocalPlayer
 local Cam = W.CurrentCamera
 
-local AutoBuy = {}
-AutoBuy.Enabled = false
-AutoBuy.SelectedItem = "Scrap"
-AutoBuy.ItemsList = {
-    "AK47", "AKAmmo", "BearTrap", "BlueprintCombatKnife", "BlueprintDoubleBarrel",
-    "BlueprintM1911", "BlueprintMachete", "BodyFlashLight", "CombatKnife", "Crucifix",
-    "Deagle", "DoubleBarrel", "EMF", "EnergyDrink", "FlareStick",
-    "Gas", "Grenade", "JackOMine", "Lantern", "M1911", "Machete",
-    "MacheteUpgraded", "Medkit", "Present", "Radio", "Scrap", "StunGrenade",
-    "Tablet", "Tomahawk", "Vest", "Watch", "XSaw"
-}
+local aiFolder = W:WaitForChild("Misc"):WaitForChild("AI")
+local ScrapFolder = W:WaitForChild("Misc")
+	:WaitForChild("Zones")
+	:WaitForChild("LootingItems")
+	:WaitForChild("Scrap")
 
-AutoBuy.ItemNames = {
-    ["AK47"] = "AK47",
-    ["AKAmmo"] = "AK弹药",
-    ["BearTrap"] = "捕熊夹",
-    ["BlueprintCombatKnife"] = "战斗刀蓝图",
-    ["BlueprintDoubleBarrel"] = "双管猎枪蓝图",
-    ["BlueprintM1911"] = "M1911蓝图",
-    ["BlueprintMachete"] = "大砍刀蓝图",
-    ["BodyFlashLight"] = "手电筒",
-    ["CombatKnife"] = "战斗刀",
-    ["Crucifix"] = "十字架",
-    ["Deagle"] = "沙漠之鹰",
-    ["DoubleBarrel"] = "双管猎枪",
-    ["EMF"] = "EMF探测器",
-    ["EnergyDrink"] = "能量饮料",
-    ["FlareStick"] = "信号棒",
-    ["Gas"] = "瓦斯罐",
-    ["Grenade"] = "手榴弹",
-    ["JackOMine"] = "南瓜雷",
-    ["Lantern"] = "灯笼",
-    ["M1911"] = "M1911",
-    ["Machete"] = "大砍刀",
-    ["MacheteUpgraded"] = "升级大砍刀",
-    ["Medkit"] = "医疗包",
-    ["Present"] = "礼物",
-    ["Radio"] = "收音机",
-    ["Scrap"] = "废料",
-    ["StunGrenade"] = "震撼弹",
-    ["Tablet"] = "平板",
-    ["Tomahawk"] = "战斧",
-    ["Vest"] = "防弹衣",
-    ["Watch"] = "手表",
-    ["XSaw"] = "X锯"
-}
+local MechanicsFrame = lp:WaitForChild("PlayerGui")
+	:WaitForChild("Ingame")
+	:WaitForChild("MechanicsFrame")
 
-function AutoBuy:SetItem(itemName)
-    if table.find(self.ItemsList, itemName) then
-        self.SelectedItem = itemName
-        return true
-    end
-    return false
-end
-
-function AutoBuy:Start()
-    if self.Thread then return end
-    
-    local Players = game:GetService("Players")
-    local LocalPlayer = Players.LocalPlayer
-    
-    self.Thread = task.spawn(function()
-        local remote = LocalPlayer:WaitForChild("PlayerGui"):WaitForChild("Ingame"):WaitForChild("MainUIHandler"):WaitForChild("Remote")
-        
-        while self.Enabled do
-            if self.SelectedItem then
-                remote:FireServer("Buy", self.SelectedItem)
-            end
-            task.wait(1)
-        end
-    end)
-end
-
-function AutoBuy:Stop()
-    self.Enabled = false
-    if self.Thread then
-        task.cancel(self.Thread)
-        self.Thread = nil
-    end
-end
-
-function AutoBuy:Toggle(state)
-    self.Enabled = state
-    if state then
-        self:Start()
-    else
-        self:Stop()
-    end
-end
-
-function AutoBuy:GetChineseName(itemName)
-    return self.ItemNames[itemName] or itemName
-end
-
-local StaffCheck = {}
-StaffCheck.Enabled = false
-StaffCheck.StaffIds = {
-    325976, 51471323, 632886139, 1160588692, 96783330,
-    4012679721, 520158435, 121395644, 1517131734
-}
-
-function StaffCheck:Start()
-    if self.Connection then return end
-    
-    local Players = game:GetService("Players")
-    local LocalPlayer = Players.LocalPlayer
-    
-    for _, player in ipairs(Players:GetPlayers()) do
-        if table.find(self.StaffIds, player.UserId) then
-            LocalPlayer:Kick("检测到游戏管理员: " .. player.Name .. " 已加入服务器，已自动踢出保护")
-            return
-        end
-    end
-    
-    self.Connection = Players.PlayerAdded:Connect(function(player)
-        if table.find(self.StaffIds, player.UserId) then
-            LocalPlayer:Kick("检测到游戏管理员: " .. player.Name .. " 已加入服务器，已自动踢出保护")
-        end
-    end)
-end
-
-function StaffCheck:Stop()
-    if self.Connection then
-        self.Connection:Disconnect()
-        self.Connection = nil
-    end
-end
-
-function StaffCheck:Toggle(state)
-    self.Enabled = state
-    if state then
-        self:Start()
-    else
-        self:Stop()
-    end
-end
-
-local function createFakeFolder()
-	local fake = {}
-	fake.GetChildren = function() return {} end
-	fake.GetDescendants = function() return {} end
-	fake.FindFirstChild = function() return nil end
-	fake.FindFirstChildOfClass = function() return nil end
-	fake.FindFirstAncestor = function() return nil end
-	fake.GetAttribute = function() return nil end
-	fake.GetAttributes = function() return nil end
-	fake.IsA = function() return false end
-	fake.IsDescendantOf = function() return false end
-	fake.IsAncestorOf = function() return false end
-	fake.ChildAdded = { Connect = function() return { Disconnect = function() end } end }
-	fake.ChildRemoved = { Connect = function() return { Disconnect = function() end } end }
-	fake.AncestryChanged = { Connect = function() return { Disconnect = function() end } end }
-	return fake
-end
-
-local aiFolder = W:FindFirstChild("Misc") and W.Misc:FindFirstChild("AI") or createFakeFolder()
-local ScrapFolder = nil
-if W:FindFirstChild("Misc") and W.Misc:FindFirstChild("Zones") and W.Misc.Zones:FindFirstChild("LootingItems") then
-	ScrapFolder = W.Misc.Zones.LootingItems:FindFirstChild("Scrap")
-end
-if not ScrapFolder then ScrapFolder = createFakeFolder() end
-
-local MechanicsFrame = nil
-if lp:FindFirstChild("PlayerGui") and lp.PlayerGui:FindFirstChild("Ingame") then
-	MechanicsFrame = lp.PlayerGui.Ingame:FindFirstChild("MechanicsFrame")
-end
-if not MechanicsFrame then MechanicsFrame = createFakeFolder() end
-
-local GameSections = W:FindFirstChild("GameStuff") and W.GameStuff:FindFirstChild("GameSections") or createFakeFolder()
-local valuesFolder = W:FindFirstChild("GameStuff") and W.GameStuff:FindFirstChild("Values") or createFakeFolder()
+local GameSections = W:WaitForChild("GameStuff"):WaitForChild("GameSections")
+local valuesFolder = W:WaitForChild("GameStuff"):WaitForChild("Values")
 
 local noclipConn = nil
 local noclipCache = {}
@@ -240,83 +233,60 @@ local function isStationElectrified(station)
 end
 
 task.spawn(function()
-    pcall(function()
-        local PlayerStats = lp:FindFirstChild("PlayerStats")
-        if not PlayerStats then return end
-        local blueprints = PlayerStats:FindFirstChild("Blueprints")
-        if not blueprints then return end
-        local bpDisplay = {
-            CombatKnife = "战斗小刀",
-            DoubleBarrel = "双管霰弹枪",
-            M1911 = "M1911手枪",
-            Machete = "砍刀",
-            Deagle = "沙漠之鹰",
-        }
-        for _, name in ipairs({"CombatKnife", "DoubleBarrel", "M1911", "Machete", "Deagle"}) do
-            pcall(function()
-                if blueprints:GetAttribute(name) ~= nil then
-                    blueprints:SetAttribute(name, true)
-                    WindUI:Notify({
-                        Title = "蓝图解锁",
-                        Content = (bpDisplay[name] or name) .. " 已解锁",
-                        Duration = 10,
-                        Icon = "check-circle"
-                    })
-                    task.wait(0.3)
-                end
-            end)
-        end
-        
-        local pg = lp:FindFirstChild("PlayerGui")
-        if not pg then return end
-        local ingame = pg:FindFirstChild("Ingame")
-        if not ingame then return end
-        local wb = nil
-        local workbench = ingame:FindFirstChild("Workbench")
-        if workbench then
-            local mainFrame = workbench:FindFirstChild("MainFrame")
-            if mainFrame then
-                local frame = mainFrame:FindFirstChild("Frame")
-                if frame then
-                    local menu = frame:FindFirstChild("Menu")
-                    if menu then
-                        wb = menu:FindFirstChild("Blueprints")
-                    end
-                end
-            end
-        end
-        if not wb then return end
-        local bpNames = {"Deagle", "CombatKnife", "DoubleBarrel", "M1911", "Machete"}
-        
-        local function showBlueprints()
-            for _, name in ipairs(bpNames) do
-                pcall(function()
-                    local frame = wb:FindFirstChild(name)
-                    if frame then
-                        frame.Visible = true
-                        local lock = frame:FindFirstChild("LockGradient")
-                        if lock then lock.Visible = false end
-                    end
-                end)
-            end
-        end
-        
-        showBlueprints()
+    local blueprints = lp:WaitForChild("PlayerStats"):WaitForChild("Blueprints")
+    local bpDisplay = {
+        CombatKnife = "战斗小刀",
+        DoubleBarrel = "双管霰弹枪",
+        M1911 = "M1911手枪",
+        Machete = "砍刀",
+        Deagle = "沙漠之鹰",
+    }
+    for _, name in ipairs({"CombatKnife", "DoubleBarrel", "M1911", "Machete", "Deagle"}) do
         pcall(function()
-            wb.DescendantAdded:Connect(function(child)
-                task.wait(0.1)
-                showBlueprints()
-            end)
+            if blueprints:GetAttribute(name) ~= nil then
+                blueprints:SetAttribute(name, true)
+                WindUI:Notify({
+                    Title = "蓝图解锁",
+                    Content = (bpDisplay[name] or name) .. " 已解锁",
+                    Duration = 10,
+                    Icon = "check-circle"
+                })
+                task.wait(0.3)
+            end
         end)
+    end
+    
+    local pg = lp:WaitForChild("PlayerGui")
+    local ingame = pg:WaitForChild("Ingame")
+    local wb = ingame:WaitForChild("Workbench"):WaitForChild("MainFrame"):WaitForChild("Frame"):WaitForChild("Menu"):WaitForChild("Blueprints")
+    local bpNames = {"Deagle", "CombatKnife", "DoubleBarrel", "M1911", "Machete"}
+    
+    local function showBlueprints()
+        for _, name in ipairs(bpNames) do
+            pcall(function()
+                local frame = wb:FindFirstChild(name)
+                if frame then
+                    frame.Visible = true
+                    local lock = frame:FindFirstChild("LockGradient")
+                    if lock then lock.Visible = false end
+                end
+            end)
+        end
+    end
+    
+    showBlueprints()
+    wb.DescendantAdded:Connect(function(child)
+        task.wait(0.1)
+        showBlueprints()
     end)
 end)
 
 local confirmed = false
 local popupSuccess = pcall(function()
     WindUI:Popup({
-        Title = "Chain",
+        Title = "Chain BK",
         IconThemed = true,
-        Content = "全缝合仅私人使用",
+        Content = " 脚本免费开源 电脑端T打开/关闭UI 如遇卡顿加载不出来尝试切换加速器或将控制台报错截图发至群内",
         Buttons = {
             {
                 Title = "关闭脚本",
@@ -342,45 +312,17 @@ end
 
 repeat task.wait() until confirmed
 
+-- ================= 新增：自动无限闪避与无敌核心代码 =================
+-- 自动无限闪避
 local CTS
 local capturingCTS = false
 local LastCTSArgs
 local dodgeLoop
 
-local hookedRemotes = {}
-
-local function hookFireServer(remote)
-    if not remote then return end
-    if hookedRemotes[remote] then return end
-    pcall(function()
-        local oldFire = remote.FireServer
-        if type(oldFire) ~= "function" then return end
-        remote.FireServer = function(self, ...)
-            local args = {...}
-            if self == CTS and capturingCTS and not LastCTSArgs then
-                LastCTSArgs = args
-            elseif self == Interact and capturingInteract and not LastInteractArgs then
-                LastInteractArgs = args
-            end
-            return oldFire(self, ...)
-        end
-        hookedRemotes[remote] = true
-    end)
-end
-
 local function refreshCTS()
-    pcall(function()
-        local char = lp.Character
-        if not char then return end
-        local mobility = char:FindFirstChild("CharacterMobility")
-        if mobility then
-            local newCTS = mobility:FindFirstChild("CTS")
-            if newCTS and newCTS ~= CTS then
-                CTS = newCTS
-                hookFireServer(CTS)
-            end
-        end
-    end)
+    local char = lp.Character
+    if not char then return end
+    CTS = char:WaitForChild("CharacterMobility"):WaitForChild("CTS")
 end
 
 lp.CharacterAdded:Connect(function()
@@ -394,6 +336,7 @@ end)
 
 refreshCTS()
 
+-- 无敌
 local Interact
 local capturingInteract = false
 local LastInteractArgs
@@ -401,24 +344,9 @@ local godLoop
 local lastFire = 0
 
 local function refreshInteract()
-    pcall(function()
-        local char = lp.Character
-        if not char then return end
-        local handler = char:FindFirstChild("CharacterHandler")
-        if handler then
-            local contents = handler:FindFirstChild("Contents")
-            if contents then
-                local remotes = contents:FindFirstChild("Remotes")
-                if remotes then
-                    local newInteract = remotes:FindFirstChild("Interact")
-                    if newInteract and newInteract ~= Interact then
-                        Interact = newInteract
-                        hookFireServer(Interact)
-                    end
-                end
-            end
-        end
-    end)
+    local char = lp.Character
+    if not char then return end
+    Interact = char:WaitForChild("CharacterHandler"):WaitForChild("Contents"):WaitForChild("Remotes"):WaitForChild("Interact")
 end
 
 lp.CharacterAdded:Connect(function()
@@ -432,13 +360,31 @@ end)
 
 refreshInteract()
 
+-- Hook __namecall 捕获远程参数
+local mt = getrawmetatable(game)
+local oldNamecall = mt.__namecall
+setreadonly(mt, false)
+mt.__namecall = function(self, ...)
+    local method = getnamecallmethod()
+    if method == "FireServer" then
+        local args = {...}
+        if self == CTS and capturingCTS and not LastCTSArgs then
+            LastCTSArgs = args
+        elseif self == Interact and capturingInteract and not LastInteractArgs then
+            LastInteractArgs = args
+        end
+    end
+    return oldNamecall(self, ...)
+end
+setreadonly(mt, true)
+-- ================= 新增部分结束 =================
 
 local Window = WindUI:CreateWindow({
 	Title = "Chain BK",
 	Icon = "rbxassetid://75060495367982",
 	IconThemed = false,
-	Author = "V3.0 作者:霞沢",
-	Folder = "ChainBX",
+	Author = "V2.8.2 作者:霞沢",
+	Folder = "ChainBK",
 	Size = UDim2.fromOffset(800, 700),
 	Transparent = true,
 	Theme = "Dark",
@@ -482,18 +428,13 @@ Tabs.ServerTab = Window:Tab({
 	Icon = "server"
 })
 
-Tabs.AutoBuyTab = Window:Tab({
-	Title = "自动购买",
-	Icon = "shopping-cart"
-})
-
 local TeleportSection = Tabs.TeleportTab:Section({
 	Title = "点击传送",
 	Opened = true
 })
 
 local teleportLocations = {
-	{Name = "天上", Pos = Vector3.new(-25.95, 84, 3537.55)},
+	{Name = "排行榜", Pos = Vector3.new(41.97792434692383, -97.96876525878906, 353.2716064453125)},
 	{Name = "偏远房子", Pos = Vector3.new(-312.85406494140625, -89.67484283447266, 274.7098388671875)},
 	{Name = "仓库", Pos = Vector3.new(316.2673645019531, -117.15931701660156, -216.89208984375)},
 	{Name = "小屋", Pos = Vector3.new(158.31149291992188, -94.2305679321289, 206.0210418701172)},
@@ -510,24 +451,15 @@ for _, loc in ipairs(teleportLocations) do
 		Title = loc.Name,
 		Callback = function()
 			pcall(function()
-				local char = lp.Character
-				if not char then
-					char = lp.CharacterAdded:Wait()
-				end
-				local hrp = char:FindFirstChild("HumanoidRootPart")
-				if not hrp then
-					task.wait(1)
-					hrp = char:FindFirstChild("HumanoidRootPart")
-				end
-				if hrp then
-					hrp.CFrame = CFrame.new(loc.Pos)
-					WindUI:Notify({
-						Title = "传送完成",
-						Content = "已传送到 " .. loc.Name,
-						Duration = 3,
-						Icon = "check-circle"
-					})
-				end
+				local char = lp.Character or lp.CharacterAdded:Wait()
+				local hrp = char:WaitForChild("HumanoidRootPart")
+				hrp.CFrame = CFrame.new(loc.Pos)
+				WindUI:Notify({
+					Title = "传送完成",
+					Content = "已传送到 " .. loc.Name,
+					Duration = 3,
+					Icon = "check-circle"
+				})
 			end)
 		end
 	})
@@ -612,9 +544,9 @@ local State = {
 	HUD_Display = true,
 	TeleportDelay = 0.2,
 	
+	-- 新增状态
 	AutoDodge = false,
 	GodMode = false,
-	StaffCheck = false,
 }
 
 local RemoteGUIs = { Shop = false, Deconstructor = false, Workbench = false }
@@ -631,7 +563,6 @@ local function UpdateMouseLock()
 end
 
 local function isDaytime()
-	if not valuesFolder then return true end
 	local t = valuesFolder:GetAttribute("RoundTime")
 	return not (type(t) == "number" and t > 0)
 end
@@ -673,7 +604,7 @@ local bullet = {
 local function getNearestEnemyPos()
 	local char = lp.Character
 	local hrp = char and char:FindFirstChild("HumanoidRootPart")
-	if not hrp or not aiFolder then return nil end
+	if not hrp then return nil end
 	local nearDist = math.huge
 	local nearPos = nil
 	for _, chain in ipairs(aiFolder:GetChildren()) do
@@ -1620,7 +1551,7 @@ local function setupSpeedBoost()
 	if speedData.Active then startSpeedBoost() end
 end
 
-local tp3 = { Active = false, CamLock = false, CamLockConn = nil, Conn = nil, CharConn = nil, SavedMax = nil, SavedMin = nil }
+local tp3 = { Active = false, CamLock = false, CamLockConn = null, Conn = null, CharConn = null, SavedMax = null, SavedMin = null }
 
 local function enforceThirdPerson()
 	if tp3.Conn then tp3.Conn:Disconnect() end
@@ -1646,7 +1577,7 @@ local function enforceThirdPerson()
 end
 
 local function updateCameraLock()
-	if tp3.CamLockConn then tp3.CamLockConn:Disconnect(); tp3.CamLockConn = nil end
+	if tp3.CamLockConn then tp3.CamLockConn:Disconnect(); tp3.CamLockConn = null end
 	if tp3.Active and tp3.CamLock then
 		tp3.CamLockConn = RS.RenderStepped:Connect(function()
 			local char = lp.Character
@@ -1662,8 +1593,8 @@ end
 
 local nofogConns = {}
 local nofogSaved = {}
-local fullbrightConn = nil
-local fullbrightSaved = nil
+local fullbrightConn = null
+local fullbrightSaved = null
 
 local HUD = Instance.new("ScreenGui")
 HUD.Name = "StatusHUD"
@@ -1730,7 +1661,7 @@ local function UpdateHUD()
 		local t = valuesFolder:GetAttribute("RoundTime")
 		local p = valuesFolder:GetAttribute("Power")
 		
-		if t ~= nil then
+		if t ~= null then
 			if type(t) == "number" and t > 0 then
 				TimeLabel.Text = "时间: " .. tostring(math.floor(t)) .. "s"
 				TimeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -1743,7 +1674,7 @@ local function UpdateHUD()
 			TimeLabel.TextColor3 = Color3.fromRGB(150, 150, 150)
 		end
 		
-		if p ~= nil then
+		if p ~= null then
 			if type(p) == "number" then
 				PowerLabel.Text = "电力: " .. string.format("%.1f", p) .. "%"
 				if p <= 10 then
@@ -1821,7 +1752,7 @@ Tabs.VisualTab:Toggle({
     Title = "高亮",
     Value = false,
     Callback = function(v)
-        if fullbrightConn then pcall(function() fullbrightConn:Disconnect() end) fullbrightConn = nil end
+        if fullbrightConn then pcall(function() fullbrightConn:Disconnect() end) fullbrightConn = null end
         
         if v then
             fullbrightSaved = {
@@ -1849,7 +1780,7 @@ Tabs.VisualTab:Toggle({
                 L.FogEnd = fullbrightSaved.FogEnd
                 L.GlobalShadows = fullbrightSaved.GlobalShadows
                 L.OutdoorAmbient = fullbrightSaved.OutdoorAmbient
-                fullbrightSaved = nil
+                fullbrightSaved = null
             end
         end
     end,
@@ -2263,7 +2194,7 @@ Tabs.VisualTab:Toggle({
         else
             if espObjects.Artifacts.Connection then
                 espObjects.Artifacts.Connection:Disconnect()
-                espObjects.Artifacts.Connection = nil
+                espObjects.Artifacts.Connection = null
             end
             for _, obj in pairs(espObjects.Artifacts) do
                 if obj.Remove then obj:Remove() end
@@ -2309,8 +2240,8 @@ local serverMonitorData = {
     servers = {},
     lastUpdate = 0,
     isUpdating = false,
-    serverListSection = nil,
-    refreshConnection = nil
+    serverListSection = null,
+    refreshConnection = null
 }
 
 local function getServerListForMonitor()
@@ -2470,11 +2401,11 @@ ServerSection:Toggle({
         else
             if serverMonitorData.serverListSection then
                 serverMonitorData.serverListSection:Destroy()
-                serverMonitorData.serverListSection = nil
+                serverMonitorData.serverListSection = null
             end
             if serverMonitorData.refreshConnection then
                 serverMonitorData.refreshConnection:Disconnect()
-                serverMonitorData.refreshConnection = nil
+                serverMonitorData.refreshConnection = null
             end
             WindUI:Notify({
                 Title = "服务器监测",
@@ -2923,7 +2854,7 @@ local PseudoGodToggle = Tabs.FuncTab:Toggle({
                     end
                 end
                 pseudoGodData.Seat:Destroy()
-                pseudoGodData.Seat = nil
+                pseudoGodData.Seat = null
             end
             WindUI:Notify({
                 Title = "伪无敌",
@@ -2933,54 +2864,6 @@ local PseudoGodToggle = Tabs.FuncTab:Toggle({
             })
         end
         PseudoGodToggle:SetValue(v)
-    end,
-})
-
-local moveGodConn = nil
-local moveGodTick = 0
-
-Tabs.FuncTab:Toggle({
-    Title = "可移动伪无敌",
-    Desc = "可以移动和攻击，高频传送躲伤害",
-    Value = false,
-    Callback = function(v)
-        if v then
-            if moveGodConn then moveGodConn:Disconnect() end
-            moveGodTick = 0
-            moveGodConn = RS.Heartbeat:Connect(function(dt)
-                moveGodTick = moveGodTick + dt
-                if moveGodTick >= 0.3 then
-                    moveGodTick = 0
-                    pcall(function()
-                        local char = lp.Character
-                        local hrp = char and char:FindFirstChild("HumanoidRootPart")
-                        if hrp then
-                            local cur = hrp.CFrame
-                            hrp.CFrame = CFrame.new(0, 500, 0)
-                            task.wait()
-                            hrp.CFrame = cur
-                        end
-                    end)
-                end
-            end)
-            WindUI:Notify({
-                Title = "可移动伪无敌",
-                Content = "已开启 - 可正常移动攻击",
-                Duration = 3,
-                Icon = "check-circle"
-            })
-        else
-            if moveGodConn then
-                moveGodConn:Disconnect()
-                moveGodConn = nil
-            end
-            WindUI:Notify({
-                Title = "可移动伪无敌",
-                Content = "已关闭",
-                Duration = 2,
-                Icon = "xmark"
-            })
-        end
     end,
 })
 
@@ -3125,6 +3008,7 @@ Tabs.FuncTab:Slider({
     end,
 })
 
+-- ================= 新增：自动无限闪避 & 无敌 UI 开关 =================
 Tabs.FuncTab:Section({ Title = "自动闪避与无敌" })
 
 local dodgeToggle = Tabs.FuncTab:Toggle({
@@ -3180,16 +3064,7 @@ local godToggle = Tabs.FuncTab:Toggle({
         end
     end,
 })
-
--- 员工检测开关
-Tabs.FuncTab:Toggle({
-    Title = "员工检测保护",
-    Value = false,
-    Callback = function(v)
-        State.StaffCheck = v
-        StaffCheck:Toggle(v)
-    end,
-})
+-- ================= 新增结束 =================
 
 local RemoteSection = Tabs.RemoteTab:Section({
     Title = "远程UI & 快捷键",
@@ -3365,7 +3240,7 @@ RemoteSection:Keybind({
                     end
                 end
                 pseudoGodData.Seat:Destroy()
-                pseudoGodData.Seat = nil
+                pseudoGodData.Seat = null
             end
             WindUI:Notify({
                 Title = "伪无敌",
@@ -3423,7 +3298,7 @@ RemoteSection:Toggle({
         else
             if bypassAK_original then
                 hookfunction(game:GetService("BadgeService").UserHasBadgeAsync, bypassAK_original)
-                bypassAK_original = nil
+                bypassAK_original = null
                 WindUI:Notify({
                     Title = "绕过关闭",
                     Content = "AK购买徽章绕过已关闭",
@@ -3433,64 +3308,6 @@ RemoteSection:Toggle({
             end
         end
     end,
-})
-
--- 自动购买标签页UI
-Tabs.AutoBuyTab:Section({ Title = "自动购买设置" })
-
-Tabs.AutoBuyTab:Dropdown({
-    Title = "选择要购买的物品",
-    Values = AutoBuy.ItemsList,
-    Value = "Scrap",
-    Callback = function(v)
-        AutoBuy:SetItem(v)
-        WindUI:Notify({
-            Title = "已选择",
-            Content = "物品: " .. AutoBuy:GetChineseName(v),
-            Duration = 2
-        })
-    end,
-})
-
-Tabs.AutoBuyTab:Toggle({
-    Title = "启用自动购买",
-    Value = false,
-    Callback = function(v)
-        AutoBuy:Toggle(v)
-        if v then
-            WindUI:Notify({
-                Title = "自动购买已开启",
-                Content = "正在自动购买: " .. AutoBuy:GetChineseName(AutoBuy.SelectedItem),
-                Duration = 3
-            })
-        else
-            WindUI:Notify({
-                Title = "自动购买已关闭",
-                Duration = 2
-            })
-        end
-    end,
-})
-
-Tabs.AutoBuyTab:Button({
-    Title = "立即购买一次",
-    Callback = function()
-        local Players = game:GetService("Players")
-        local LocalPlayer = Players.LocalPlayer
-        local remote = LocalPlayer.PlayerGui.Ingame.MainUIHandler.Remote
-        remote:FireServer("Buy", AutoBuy.SelectedItem)
-        WindUI:Notify({
-            Title = "购买成功",
-            Content = "已购买: " .. AutoBuy:GetChineseName(AutoBuy.SelectedItem),
-            Duration = 2
-        })
-    end,
-})
-
-Tabs.AutoBuyTab:Paragraph({
-    Title = "提示",
-    Desc = "自动购买每1秒执行一次，可能会被反作弊检测",
-    Color = "Yellow"
 })
 
 local themes = WindUI:GetThemes()
@@ -3526,7 +3343,7 @@ local gunMax = {
     M1911 = 7
 }
 
-local origSyncFunc = nil
+local origSyncFunc = null
 
 local function setupAmmoHooks()
     for _, c in ipairs(ammoConns) do pcall(function() c:Disconnect() end) end
@@ -3716,7 +3533,7 @@ task.spawn(function()
     while task.wait(0.03) do
         if State.FaceChain then
             pcall(function()
-                local nearest, nearDist = nil, math.huge
+                local nearest, nearDist = null, math.huge
                 for _, chain in ipairs(aiFolder:GetChildren()) do
                     if chain:IsA("Model") then
                         local cHRP = chain:FindFirstChild("HumanoidRootPart")
@@ -3750,10 +3567,10 @@ lp.CharacterAdded:Connect(function()
 end)
 
 WindUI:Notify({
-    Title = "Chain已加载",
-    Content = "Chain V3.0",
+    Title = "ChainBK已加载",
+    Content = "欢迎使用BK Chain V2.8",
     Duration = 5,
     Icon = "check-circle",
 })
 
-
+print("源码来自神秘鱼")
