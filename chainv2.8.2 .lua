@@ -12,12 +12,12 @@ if localPlayer.Name == "FosARQIN" then
     return
 end
 
-if CoreGui:FindFirstChild("XK_KeyAuth") then
-    CoreGui:FindFirstChild("XK_KeyAuth"):Destroy()
+if CoreGui:FindFirstChild("BK_KeyAuth") then
+    CoreGui:FindFirstChild("BK_KeyAuth"):Destroy()
 end
 
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "XK_KeyAuth"
+ScreenGui.Name = "BK_KeyAuth"
 ScreenGui.Parent = CoreGui
 ScreenGui.ResetOnSpawn = false
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -65,7 +65,7 @@ local GroupLabel1 = Instance.new("TextLabel")
 GroupLabel1.Size = UDim2.new(1, -20, 0, 20)
 GroupLabel1.Position = UDim2.new(0, 10, 0, 50)
 GroupLabel1.BackgroundTransparency = 1
-GroupLabel1.Text = "获得卡密: 859387452"
+GroupLabel1.Text = "卡密:3"
 GroupLabel1.TextColor3 = Color3.fromRGB(180, 180, 180)
 GroupLabel1.Font = Enum.Font.Gotham
 GroupLabel1.TextSize = 14
@@ -117,7 +117,7 @@ local CORRECT_KEY = "3"
 local function verifyKey()
     if KeyBox.Text == CORRECT_KEY then
         StarterGui:SetCore("SendNotification", {
-            Title = "XK Chain",
+            Title = "BK Chain",
             Text = "卡密正确，正在加载...",
             Duration = 3,
             Icon = "rbxassetid://915207093"
@@ -126,7 +126,7 @@ local function verifyKey()
         ScreenGui:Destroy()
     else
         StarterGui:SetCore("SendNotification", {
-            Title = "XK Chain",
+            Title = "BK Chain",
             Text = "卡密错误",
             Duration = 3,
             Icon = "rbxassetid://859387452"
@@ -151,7 +151,7 @@ end
 
 local StarterGui = game:GetService("StarterGui")
 StarterGui:SetCore("SendNotification", {
-    Title = "Chain XK",
+    Title = "Chain BK",
     Text = "脚本正在加载中",
     Duration = 3
 })
@@ -160,7 +160,7 @@ local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/rel
 
 if not WindUI then
     StarterGui:SetCore("SendNotification", {
-        Title = "Chain XK",
+        Title = "Chain BK",
         Text = "脚本加载失败",
         Duration = 5
     })
@@ -312,11 +312,11 @@ end
 repeat task.wait() until confirmed
 
 local Window = WindUI:CreateWindow({
-	Title = "Chain XK",
+	Title = "Chain BK",
 	Icon = "rbxassetid://75060495367982",
 	IconThemed = false,
-	Author = "V2.8 作者:霞沢",
-	Folder = "ChainXK",
+	Author = "V2.8",
+	Folder = "ChainBK",
 	Size = UDim2.fromOffset(800, 700),
 	Transparent = true,
 	Theme = "Dark",
